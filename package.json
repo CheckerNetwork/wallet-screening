@@ -5,6 +5,7 @@
   },
   "private": true,
   "devDependencies": {
+    "@flydotio/dockerfile": "^0.4.10",
     "standard": "^17.1.0"
   }
 }

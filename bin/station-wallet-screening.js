@@ -2,7 +2,7 @@ import http from 'node:http'
 import { once } from 'node:events'
 import { handler } from '../index.js'
 
-const { PORT = 8080 } = process.env
+const { PORT = 3000 } = process.env
 
 const server = http.createServer(handler)
 server.listen(PORT)

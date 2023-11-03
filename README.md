@@ -7,3 +7,9 @@ HTTP API for screening wallet addresses.
 Reponses:
 - `200 OK`
 - `403 Forbidden`
+
+## Deploy
+
+```bash
+$ fly deploy
+```
