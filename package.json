@@ -1,0 +1,10 @@
+{
+  "type": "module",
+  "scripts": {
+    "test": "standard && node test"
+  },
+  "private": true,
+  "devDependencies": {
+    "standard": "^17.1.0"
+  }
+}
