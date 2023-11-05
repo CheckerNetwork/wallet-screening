@@ -3,6 +3,7 @@ import assert from 'node:assert'
 import Sentry from '@sentry/node'
 
 const handler = async (req, res, apiKey, fetch) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
   const address = req.url.split('/')[1].trim()
   const fetchRes = await fetch(
     `https://public.chainalysis.com/api/v1/address/${address}`,
