@@ -1,5 +1,6 @@
 import { STATUS_CODES } from 'node:http'
 import assert from 'node:assert'
+import Sentry from '@sentry/node'
 
 const handler = async (req, res, apiKey, fetch, log) => {
   const address = req.url.split('/')[1].trim()
@@ -25,6 +26,7 @@ export const createHandler = ({
 }) => (req, res) => {
   handler(req, res, apiKey, fetch, log).catch(err => {
     log(err)
+    Sentry.captureException(err)
     res.statusCode = 500
     res.end('Internal Server Error')
   })
