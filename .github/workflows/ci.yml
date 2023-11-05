@@ -10,3 +10,4 @@ jobs:
           node-version: node
       - run: npm ci
       - run: npm test
+      - run: CHAINALYSIS_API_KEY=${{ secrets.CHAINALYSIS_API_KEY }} npm run test:integration
