@@ -2,7 +2,7 @@ import { STATUS_CODES } from 'node:http'
 import assert from 'node:assert'
 import Sentry from '@sentry/node'
 
-const handler = async (req, res, apiKey, fetch, log) => {
+const handler = async (req, res, apiKey, fetch) => {
   const address = req.url.split('/')[1].trim()
   const fetchRes = await fetch(
     `https://public.chainalysis.com/api/v1/address/${address}`,
@@ -24,7 +24,7 @@ export const createHandler = ({
   fetch = globalThis.fetch,
   log = console.log
 }) => (req, res) => {
-  handler(req, res, apiKey, fetch, log).catch(err => {
+  handler(req, res, apiKey, fetch).catch(err => {
     log(err)
     Sentry.captureException(err)
     res.statusCode = 500
