@@ -25,7 +25,8 @@ describe('Unit tests', () => {
           status: 200,
           json: async () => ({ identifications: [] })
         }
-      }
+      },
+      log () {}
     }))
 
     const { status } = await fetch(`http://127.0.0.1:${port}/0xADDRESS`)
@@ -52,7 +53,8 @@ describe('Unit tests', () => {
           status: 200,
           json: async () => ({ identifications: [{}] })
         }
-      }
+      },
+      log () {}
     }))
 
     const { status } = await fetch(`http://127.0.0.1:${port}/0xADDRESS`)

@@ -25,10 +25,16 @@ export const createHandler = ({
   fetch = globalThis.fetch,
   log = console.log
 }) => (req, res) => {
-  handler(req, res, apiKey, fetch).catch(err => {
-    log(err)
-    Sentry.captureException(err)
-    res.statusCode = 500
-    res.end('Internal Server Error')
-  })
+  const start = new Date()
+  log(`${req.method} ${req.url} ...`)
+  handler(req, res, apiKey, fetch)
+    .catch(err => {
+      log(err)
+      Sentry.captureException(err)
+      res.statusCode = 500
+      res.end('Internal Server Error')
+    })
+    .then(() => {
+      log(`${req.method} ${req.url} ${res.statusCode} (${new Date() - start}ms)`)
+    })
 }
