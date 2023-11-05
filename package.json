@@ -1,11 +1,18 @@
 {
   "type": "module",
   "scripts": {
-    "test": "standard && node test"
+    "test": "standard && mocha --ignore test/integration.js",
+    "test:integration": "mocha test/integration.js"
   },
   "private": true,
+  "standard": {
+    "env": [
+      "mocha"
+    ]
+  },
   "devDependencies": {
     "@flydotio/dockerfile": "^0.4.10",
+    "mocha": "^10.2.0",
     "standard": "^17.1.0"
   }
 }
