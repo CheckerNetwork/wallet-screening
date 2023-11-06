@@ -3,6 +3,7 @@ import assert from 'node:assert'
 import Sentry from '@sentry/node'
 
 const handler = async (req, res, apiKey, fetch) => {
+  // The origin is the electron app, which always has this address.
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
   const address = req.url.split('/')[1].trim()
   const fetchRes = await fetch(
