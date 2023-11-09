@@ -2,9 +2,28 @@ import { STATUS_CODES } from 'node:http'
 import assert from 'node:assert'
 import Sentry from '@sentry/node'
 
+/**
+ *
+ * @param {import('node:http').IncomingMessage} req
+ * @param {import('node:http').ServerResponse} res
+ * @param {string} apiKey
+ * @param {typeof fetch} fetch
+ */
 const handler = async (req, res, apiKey, fetch) => {
-  // The origin is the electron app, which always has this address.
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
+  // The origin is the electron app. The origin depends on how we run the app.
+  //   - via `npm start` -> origin is http://localhost:3000
+  //   - packaged -> origin is app://-
+  // Unfortunately, Access-Control-Allow-Origin supports only a single value (single origin)
+  // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin
+  // > Only a single origin can be specified. If the server supports clients from multiple origins,
+  // > it must return the origin for the specific client making the request.
+  console.log('origin:', req.headers.origin)
+  if (req.headers.origin === 'http://localhost:3000') {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
+  } else {
+    res.setHeader('Access-Control-Allow-Origin', 'app://-')
+  }
+
   const address = req.url.split('/')[1].trim()
   const fetchRes = await fetch(
     `https://public.chainalysis.com/api/v1/address/${address}`,
