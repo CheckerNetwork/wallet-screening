@@ -26,7 +26,7 @@ Sentry.init({
   tracesSampleRate: 0.1
 })
 
-assert(CHAINALYSIS_API_KEY)
+assert(CHAINALYSIS_API_KEY, 'CHAINALYSIS_API_KEY must be set via env vars')
 
 const server = http.createServer(createHandler({
   apiKey: CHAINALYSIS_API_KEY
