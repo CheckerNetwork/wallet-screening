@@ -6,13 +6,20 @@ import assert from 'node:assert'
 const { CHAINALYSIS_API_KEY } = process.env
 assert(CHAINALYSIS_API_KEY)
 
+const logger = {
+  info () {},
+  error: console.error,
+  request () {}
+}
+
 describe('Integration', () => {
   let server
   let port
 
   before(async () => {
     server = http.createServer(createHandler({
-      apiKey: CHAINALYSIS_API_KEY
+      apiKey: CHAINALYSIS_API_KEY,
+      logger
     }))
     server.listen()
     await once(server, 'listening')

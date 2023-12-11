@@ -3,6 +3,12 @@ import http from 'node:http'
 import { once } from 'node:events'
 import assert from 'node:assert'
 
+const logger = {
+  info () {},
+  error: console.error,
+  request () {}
+}
+
 describe('Unit tests', () => {
   let server
   let port
@@ -26,7 +32,7 @@ describe('Unit tests', () => {
           json: async () => ({ identifications: [] })
         }
       },
-      log () {}
+      logger
     }))
 
     const { status } = await fetch(`http://127.0.0.1:${port}/0xADDRESS`)
@@ -54,7 +60,7 @@ describe('Unit tests', () => {
           json: async () => ({ identifications: [{}] })
         }
       },
-      log () {}
+      logger
     }))
 
     const { status } = await fetch(`http://127.0.0.1:${port}/0xADDRESS`)
@@ -81,7 +87,10 @@ describe('Unit tests', () => {
           status: 500
         }
       },
-      log () {}
+      logger: {
+        ...logger,
+        error () {}
+      }
     }))
 
     const { status } = await fetch(`http://127.0.0.1:${port}/0xADDRESS`)

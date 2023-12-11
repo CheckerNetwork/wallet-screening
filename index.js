@@ -17,7 +17,6 @@ const handler = async (req, res, apiKey, fetch) => {
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin
   // > Only a single origin can be specified. If the server supports clients from multiple origins,
   // > it must return the origin for the specific client making the request.
-  console.log('origin:', req.headers.origin)
   if (req.headers.origin === 'http://localhost:3000') {
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
   } else {
@@ -43,18 +42,18 @@ const handler = async (req, res, apiKey, fetch) => {
 export const createHandler = ({
   apiKey,
   fetch = globalThis.fetch,
-  log = console.log
+  logger
 }) => (req, res) => {
   const start = new Date()
-  log(`${req.method} ${req.url} ...`)
+  logger.request(`${req.method} ${req.url} ...`)
   handler(req, res, apiKey, fetch)
     .catch(err => {
-      log(err)
+      logger.error(err)
       Sentry.captureException(err)
       res.statusCode = 500
       res.end('Internal Server Error')
     })
     .then(() => {
-      log(`${req.method} ${req.url} ${res.statusCode} (${new Date() - start}ms)`)
+      logger.request(`${req.method} ${req.url} ${res.statusCode} (${new Date() - start}ms)`)
     })
 }
