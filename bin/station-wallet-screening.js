@@ -9,6 +9,7 @@ import { fileURLToPath } from 'node:url'
 const {
   PORT = 3000,
   CHAINALYSIS_API_KEY,
+  REQUEST_LOGGING = 'true',
   SENTRY_ENVIRONMENT = 'development'
 } = process.env
 
@@ -28,8 +29,15 @@ Sentry.init({
 
 assert(CHAINALYSIS_API_KEY, 'CHAINALYSIS_API_KEY must be set via env vars')
 
+const logger = {
+  error: console.error,
+  info: console.info,
+  request: ['1', 'true'].includes(REQUEST_LOGGING) ? console.info : () => {}
+}
+
 const server = http.createServer(createHandler({
-  apiKey: CHAINALYSIS_API_KEY
+  apiKey: CHAINALYSIS_API_KEY,
+  logger
 }))
 server.listen(PORT)
 await once(server, 'listening')
