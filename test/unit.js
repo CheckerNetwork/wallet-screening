@@ -2,6 +2,7 @@ import { createHandler } from '../index.js'
 import http from 'node:http'
 import { once } from 'node:events'
 import assert from 'node:assert'
+import { describe, it, before, after } from 'node:test'
 
 const logger = {
   info () {},
