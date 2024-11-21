@@ -35,6 +35,11 @@ const handler = async (req, res, apiKey, fetch) => {
   )
   assert(fetchRes.ok, `Chainalysis API status ${fetchRes.status}`)
   const body = await fetchRes.json()
+  if (typeof body !== 'object' || body === null || !Array.isArray(body.identifications)) {
+    const err = new Error('Invalid Chainalysis response')
+    err.body = body
+    throw err
+  }
   res.statusCode = body.identifications.length > 0 ? 403 : 200
   res.end(STATUS_CODES[res.statusCode])
 }
