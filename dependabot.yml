@@ -1,0 +1,9 @@
+version: 2
+updates:
+  - package-ecosystem: "docker"
+    directories:
+      - "/"
+    schedule:
+      interval: "daily"
+      time: "15:00"
+      timezone: "Europe/Berlin"
